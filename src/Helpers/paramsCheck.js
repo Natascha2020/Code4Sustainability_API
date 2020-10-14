@@ -1,15 +1,15 @@
 // Checking input value of client request
 
 const paramsCheck = ([arrayOfParams]) => {
-  let param = true;
+  let params = true;
   for (let param of arrayOfParams) {
     if (!param || param === "") {
-      param = false;
-      console.log("Params");
+      params = false;
+      console.log(param);
       break;
     }
   }
-  return param;
+  return params;
 };
 
 module.exports = paramsCheck;

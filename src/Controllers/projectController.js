@@ -2,61 +2,57 @@
 const Project = require("../Models/Project");
 const paramsCheck = require("../Helpers/paramsCheck");
 
-//Import bcyrpt for hashing password
-const bcrypt = require("bcrypt");
-
 const projectController = {
+
+  // get all projects
   getAllProjects: (req, res) => {
-    console.log("Test1");
     Project.find({}, (err, data) => {
-      console.log("Test2");
       if (err) {
         res.sendStatus(500);
-        console.log(err);
+        console.error(err);
         return;
       }
       console.log(data);
-      console.log("Test3");
       res.json(data);
     });
   },
 
   createProject: async (req, res, next) => {
-    console.log("testA");
-    const { projectname, password } = req.body;
-    console.log(projectname, password);
+    const { email, password, typeOfUser } = req.body;
+    console.log(email, password);
 
-    const validParams = paramsCheck([projectname, password]);
+    const validParams = paramsCheck([email, password, typeOfUser]);
     if (!validParams) {
-      res.sendStatus(400).send("Please insert valid data for parameters");
-      console.log("errormessage");
+      res.sendStatus(400).send("Please insert valid data");
+      console.log("Error: invalid data on client request");
       return;
     }
-
-    // salting users plain text password through hashing function to save as hash in database
-    // sending back to client username and id
+    //check if user is a project owner, then create project, else go next (create developer)
     try {
-      const saltRounds = 10;
-      const hash = await bcrypt.hash(password, saltRounds);
-      console.log(hash);
-      console.log("test B");
-      const project = await Project.create({ projectname: projectname, password: hash });
-      console.log(project);
-      console.log("test C");
-      res.json({ projectname: project.projectname, id: project._id });
-      console.log("test D");
-    } catch (error) {
-      console.log(error);
+      if(typeOfUser === "Project"){
+      const project = await Project.create({email: email });
+    }
+      next();
+    } catch (err) {
+      console.error(err);
       res.sendStatus(500);
       return;
     }
   },
 
-  getProjectById: (req, res, next) => {},
-
-  updateProjectById: (req, res, next) => {},
-
-  deleteProjectById: (req, res) => {},
-};
+  // if user is a project owner, delete project not only in user, but in project collection as well
+  deleteProjectByEmail: async (req, res, next) => {
+    const {email} = req.params;
+    await Project.findOneAndDelete({email: email}, (err, data) => {
+      if(err) {
+        res.senStatus(500);
+        console.error(err)
+        return}
+      if(data === null) next()
+      else{
+      res.send("Project successfully deleted!");
+      console.log("Project successfully deleted!");
+      }}) 
+}}
 
 module.exports = projectController;
