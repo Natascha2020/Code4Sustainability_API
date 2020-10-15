@@ -11,5 +11,4 @@ const paramsCheck = ([arrayOfParams]) => {
   }
   return params;
 };
-
 module.exports = paramsCheck;

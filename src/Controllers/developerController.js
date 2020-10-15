@@ -31,9 +31,19 @@ const developerController = {
     //check if user is a developer, then create developer
     try {
       if(typeOfUser === "Developer"){
-      await Developer.create({email: email });
-      }
+        await Developer.create({email:email}, (err, data) => {
+          if(err){
+            console.error(err);
+            res.sendStatus(500);
+            return
+          }
+
+        })}
+        console.log("B");
       next();
+
+
+
     } catch (err) {
       console.error(err);
       res.sendStatus(500);
@@ -41,19 +51,7 @@ const developerController = {
     }
   },
 
-  // if user is a developer, delete user not only in user, but in developer collection as well
-  deleteDeveloperByEmail: async (req, res) => {
-    const {email} = req.params;
-    await Developer.findOneAndDelete({email: email}, (err, data) => {
-      if (err){
-        console.error(err);
-        res.sendStatus(500);
-        return
-        }
-      res.send("Developer successfully deleted!");
-      console.log("Developer successfully deleted!");
-  })
-},
+
 }
 
 module.exports = developerController;

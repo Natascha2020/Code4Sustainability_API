@@ -12,14 +12,15 @@ router.get("/", userController.getAllUsers);
 router.post("/", projectController.createProject, developerController.createDeveloper,  userController.createUser);
 
 // delete user (in user collection and project or developer collection depending on typeOfUser)
-router.delete("/:email", userController.deleteUserByEmail, projectController.deleteProjectByEmail, developerController.deleteDeveloperByEmail);
+router.delete("/:id", userController.deleteUserById);
 
 // get user by specific id
 router.get("/:id", userController.getUserById);
 
+// get dashboard depending on typeOfUser by specific id
+router.get("/getDashboard/:id", userController.getDashboard)
+
 // update user information
 router.put("/:id", userController.updateUserById);
-
-
 
 module.exports = router;
