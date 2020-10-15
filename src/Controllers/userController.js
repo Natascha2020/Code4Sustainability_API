@@ -53,16 +53,26 @@ const userController = {
         next();
         if (err){
         console.error(err);
-        res.sendStatus(404);
+        res.sendStatus(500);
         return
         }
       })},
 
-  getUserById: (req, res, next) => {},
+  getUserById: async (req, res, next) => {
+    const {id} = req.params;
+    const result = await User.findOne({_id: id}, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(500);
+        return
+      }
+      res.json({_id: id, email: result.email, typeOfUser: result.typeOfUser, username:result.username });
+    })
+  },
 
   updateUserById: (req, res, next) => {},
 
  
-};
+}
 
 module.exports = userController;
