@@ -48,6 +48,24 @@ const projectController = {
       return;
     }
   },
+
+  addDeveloper: async (req, res, next) => {
+    const {id} = req.params;
+    const {developer_id} = req.query
+    //projects/req.params/addDeveloper?developer_id=req.query
+
+
+
+    await Project.findOneAndUpdate({_id:id}, {$set: {$push: {developers_pending: developer_id}}}, (err, data) => {
+        if (err){
+          console.error(err);
+          res.sendStatus(500);
+          return
+        }
+        return(data);
+    })
+  },
+
 }
 
 module.exports = projectController;

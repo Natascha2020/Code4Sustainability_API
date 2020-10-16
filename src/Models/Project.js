@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const projectSchema = new Schema({
   email: String,
-  developers_pending: [String],
+  developers_pending: [],
   developers_matched: [String],
 });
 
