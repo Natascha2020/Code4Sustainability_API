@@ -2,6 +2,9 @@
 const User = require("../Models/User");
 const Project = require("../Models/Project");
 const Developer = require("../Models/Developer");
+
+const path = require("path");
+
 const paramsCheck = require("../Helpers/paramsCheck");
 
 //Import bcyrpt for hashing password
@@ -208,6 +211,30 @@ const userController = {
     } catch (err) {
       res.sendStatus(500);
       console.error(err);
+    }
+  },
+
+  videoUpload: async (req, res) => {
+    const { id } = req.params;
+    // check the integrity of the body
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send("No files were uploaded.");
+    }
+
+    try {
+      // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+      let videoUpload = req.files.videoUpload;
+      console.log(videoUpload);
+
+      // Use the mv() method to place the file somewhere on your server
+      await videoUpload.mv(path.join(__dirname, "../Videos/") + "ppvideo.mov");
+      res.send("File uploaded!");
+      // MONGODB SAVE THE PATH TO THE CONSUMMER/PROJECT OWNER
+      const video = await User.findByIdAndUpdate(id, { $set: { video: "../Videos/" + videoUpload } });
+      console.log(video);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
     }
   },
 };

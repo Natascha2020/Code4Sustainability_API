@@ -29,4 +29,7 @@ router.get("/:id/getDashboard/", userController.getDashboard);
 // update user information
 router.put("/:id", userController.updateUserById);
 
+// video upload
+router.post("/:id/videoUpload", userController.videoUpload);
+
 module.exports = router;

@@ -58,11 +58,10 @@ const developerController = {
       const result = await Developer.exists({ _id: findDeveloper.id_developer, projects_pending: user_id_p });
       console.log(result);
       if (!result) {
-        const pushedProject = await Developer.findOneAndUpdate({ _id: findDeveloper.id_developer }, { $push: { projects_pending: user_id_p } });
+        const pushedProject = await Developer.findByIdAndUpdate(findDeveloper.id_developer, { $push: { projects_pending: user_id_p } });
         console.log("id", id);
         console.log(pushedProject);
 
-        /* const pushedDeveloper = await Project.findById(findProject.id_project); */
         const pushedDeveloper = await Project.findByIdAndUpdate(findProject.id_project, { $push: { developers_pending: id } });
         res.json({ pushedDeveloper: pushedDeveloper, pushedProject: pushedProject });
         console.log("p", pushedDeveloper);

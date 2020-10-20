@@ -3,6 +3,7 @@ require("./dbConfig");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 
 const userRoutes = require("./Routes/userRoutes");
 const developerRoutes = require("./Routes/developerRoutes");
@@ -14,6 +15,7 @@ const port = process.env.PORT || 5000;
 // Middlewares to parse pody-text format as url encoded data/json received from client
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(fileUpload());
 
 // Middlewares for Routes
 app.use("/users", userRoutes);
