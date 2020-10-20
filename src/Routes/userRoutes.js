@@ -24,7 +24,7 @@ router.delete("/:id", userController.deleteUserById);
 router.get("/:id", userController.getUserById);
 
 // get dashboard depending on typeOfUser by specific id
-router.get("/getDashboard/:id", userController.getDashboard);
+router.get("/:id/getDashboard/", userController.getDashboard);
 
 // update user information
 router.put("/:id", userController.updateUserById);
