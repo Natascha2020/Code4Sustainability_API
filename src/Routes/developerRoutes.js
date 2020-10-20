@@ -9,7 +9,11 @@ router.get("/", developerController.getAllDevelopers);
 // add project on userid where userid(idproject) to pending matches in developer and project
 router.put("/:id/addProject", developerController.addProject);
 
+router.put("/:id/deletePendingProject", developerController.deletePendingProject);
+
 // add project on userid where userid(idporject) to accepted matches in developer and project
 router.put("/:id/acceptProject", developerController.acceptProject);
+
+router.put("/:id/deleteMatchedProject", developerController.deleteMatchedProject);
 
 module.exports = router;

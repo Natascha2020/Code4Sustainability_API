@@ -45,7 +45,7 @@ const projectController = {
     const { id } = req.params;
     //iduser(developer)
     const { user_id_d } = req.query;
-    //developers/:id/addDeveloper?id=user_id(developer)
+    //projects/:id/addDeveloper?user_id_d=user_id(developer)
 
     try {
       const findProject = await User.findOne({ _id: id });
@@ -73,7 +73,6 @@ const projectController = {
     const { id } = req.params;
     //iduser(developer)
     const { user_id_d } = req.query;
-    //projects/:id/addDeveloper?id=user_id(developer)
 
     try {
       const projectPending = await User.findOne({ _id: id });
@@ -106,7 +105,6 @@ const projectController = {
     const { id } = req.params;
     //iduser(developer)
     const { user_id_d } = req.query;
-    //developers/:id/addDeveloper?id=user_id(developer)
 
     try {
       const findProject = await User.findOne({ _id: id });
