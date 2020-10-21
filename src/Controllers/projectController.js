@@ -7,8 +7,10 @@ const Developer = require("../Models/Developer");
 const projectController = {
   // get all projects
   getAllProjects: async (req, res) => {
+    console.log("get projects");
     try {
       const result = await Project.find({});
+      console.log("in result");
       console.log(result);
       res.json(result);
     } catch (err) {

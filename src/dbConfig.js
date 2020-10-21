@@ -13,7 +13,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 //ensuring connection
-db.once("open", function () {
+db.once("open", () => {
   console.info("Mongoose successfully connected");
 });
 

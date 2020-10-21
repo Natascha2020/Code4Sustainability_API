@@ -4,12 +4,13 @@ const router = express.Router();
 const userController = require("../Controllers/userController");
 const projectController = require("../Controllers/projectController");
 const developerController = require("../Controllers/developerController");
+const verifyAuth = require("../Authentication/verifyAuth");
 
 // get all users
 router.get("/", userController.getAllUsers);
 
 // get all users with tpeOfUser "Project"
-router.get("/projects", userController.getAllUsersProjects);
+router.get("/projects", /* verifyAuth, */ userController.getAllUsersProjects);
 
 // get all users with tpeOfUser "Developer"
 router.get("/developers", userController.getAllUsersDevelopers);
