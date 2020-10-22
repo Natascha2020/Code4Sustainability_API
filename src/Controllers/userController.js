@@ -108,9 +108,12 @@ const userController = {
     }
 
     try {
-      const result = await User.findOne({ _id: id });
+      let result = await User.findOne({ _id: id });
       console.log(result);
-      res.json({ id: result._id, email: result.email, typeOfUser: result.typeOfUser, username: result.username });
+      delete result.password;
+      console.log(result);
+      /*  res.json({ id: result._id, email: result.email, typeOfUser: result.typeOfUser, username: result.username }); */
+      res.json(result);
     } catch (err) {
       console.error(err);
       res.sendStatus(500);

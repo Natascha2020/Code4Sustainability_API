@@ -31,7 +31,7 @@ app.use(fileUpload());
 
 // Middlewares for Routes
 app.use("/users", userRoutes);
-app.use("/developers", developerRoutes);
-app.use("/projects", projectRoutes);
+app.use("/developer", developerRoutes);
+app.use("/project", projectRoutes);
 
 app.listen(port, () => console.log("Server is running on port " + port));

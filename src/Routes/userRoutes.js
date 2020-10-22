@@ -10,7 +10,7 @@ const verifyAuth = require("../Authentication/verifyAuth");
 router.get("/", userController.getAllUsers);
 
 // get all users with tpeOfUser "Project"
-router.get("/projects", /* verifyAuth, */ userController.getAllUsersProjects);
+router.get("/projects", userController.getAllUsersProjects);
 
 // get all users with tpeOfUser "Developer"
 router.get("/developers", userController.getAllUsersDevelopers);
