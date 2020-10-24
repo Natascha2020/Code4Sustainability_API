@@ -11,7 +11,7 @@ const paramsCheck = require("../Helpers/paramsCheck");
 const bcrypt = require("bcrypt");
 
 const userController = {
-  getAllUsers: async (req, res) => {
+  /*   getAllUsers: async (req, res) => {
     try {
       const result = await User.find({});
       res.json(result);
@@ -19,7 +19,7 @@ const userController = {
       res.sendStatus(500);
       console.error(err);
     }
-  },
+  }, */
 
   getAllUsersProjects: async (req, res) => {
     try {
@@ -70,8 +70,8 @@ const userController = {
   },
 
   // delete user profile and go next to delete developer or project profile accordingly
-  deleteUserById: async (req, res, next) => {
-    const { id } = req.params;
+  deleteUserById: async (req, res) => {
+    const id = req.user.idUser;
 
     if (!paramsCheck([id])) {
       res.sendStatus(400);
@@ -98,8 +98,9 @@ const userController = {
   },
 
   // find specific user by email
-  getUserById: async (req, res, next) => {
-    const { id } = req.params;
+  getUserById: async (req, res) => {
+    console.log(req.user.idUser);
+    const id = req.user.idUser;
 
     if (!paramsCheck([id])) {
       res.sendStatus(400);
@@ -108,11 +109,7 @@ const userController = {
     }
 
     try {
-      let result = await User.findOne({ _id: id });
-      console.log(result);
-      delete result.password;
-      console.log(result);
-      /*  res.json({ id: result._id, email: result.email, typeOfUser: result.typeOfUser, username: result.username }); */
+      let result = await User.findOne({ _id: id }, { password: 0 });
       res.json(result);
     } catch (err) {
       console.error(err);
@@ -123,7 +120,7 @@ const userController = {
   // update user information according to given changes on client request, sending back updated data to client
   updateUserById: async (req, res) => {
     const { email, name, video, password, webpage, image, location, question1, question2, question3, answer1, answer2, answer3 } = req.body;
-    const { id } = req.params;
+    const id = req.user.idUser;
     let newHash = "";
 
     try {
@@ -163,11 +160,11 @@ const userController = {
       if (!answer2 || answer2 === "") delete updatedValue.answer3;
       if (!answer3 || answer3 === "") delete updatedValue.answer3;
 
-      const result = await User.findOneAndUpdate({ _id: id }, { $set: updatedValue });
+      const result = await User.findOneAndUpdate({ _id: id }, { $set: updatedValue }, { password: 0 });
 
       console.log("result", result);
       res.json({
-        email: result.email,
+        /*  email: result.email,
         name: result.name,
         video: result.video,
         password: result.newHash,
@@ -179,7 +176,7 @@ const userController = {
         question3: result.question3,
         answer1: result.answer1,
         answer2: result.answer2,
-        answer3: result.answer3,
+        answer3: result.answer3, */
       });
     } catch (err) {
       console.error(err);
@@ -189,7 +186,7 @@ const userController = {
 
   // get dashboard depending on typeOfUser by specific id
   getDashboard: async (req, res) => {
-    const { id } = req.params;
+    const id = req.user.idUser;
     console.log(id);
     if (!paramsCheck([id])) {
       res.sendStatus(400);
@@ -218,7 +215,7 @@ const userController = {
   },
 
   videoUpload: async (req, res) => {
-    const { id } = req.params;
+    const id = req.user.idUser;
     // check the integrity of the body
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded.");
@@ -230,11 +227,12 @@ const userController = {
       console.log(videoUpload);
 
       // Use the mv() method to place the file somewhere on your server
-      await videoUpload.mv(path.join(__dirname, "../Videos/") + "ppvideo.mov");
-      res.send("File uploaded!");
+      await videoUpload.mv(path.join(__dirname, "../Videos/") + `${videoUpload.name}.mov`);
+
       // MONGODB SAVE THE PATH TO THE CONSUMMER/PROJECT OWNER
       const video = await User.findByIdAndUpdate(id, { $set: { video: "../Videos/" + videoUpload } });
       console.log(video);
+      res.send("File uploaded!");
     } catch (err) {
       console.log(err);
       res.status(500).send(err);

@@ -44,7 +44,7 @@ const projectController = {
 
   addDeveloper: async (req, res, next) => {
     //iduser(project)
-    const { id } = req.params;
+    const id = req.user.idUser;
     //iduser(developer)
     const { user_id_d } = req.query;
     //projects/:id/addDeveloper?user_id_d=user_id(developer)
@@ -72,7 +72,7 @@ const projectController = {
   acceptDeveloper: async (req, res) => {
     // delete userid(developer)from pending_developer-array and push it to developers_matched-array on userid
     //iduser(project)
-    const { id } = req.params;
+    const id = req.user.idUser;
     //iduser(developer)
     const { user_id_d } = req.query;
 
@@ -104,7 +104,7 @@ const projectController = {
   },
 
   deletePendingDeveloper: async (req, res) => {
-    const { id } = req.params;
+    const id = req.user.idUser;
     //iduser(developer)
     const { user_id_d } = req.query;
 
@@ -131,7 +131,7 @@ const projectController = {
   deleteMatchedDeveloper: async (req, res) => {
     // delete userid(developer)from pending_developer-array and push it to developers_matched-array on userid
     //iduser(project)
-    const { id } = req.params;
+    const id = req.user.idUser;
     //iduser(developer)
     const { user_id_d } = req.query;
     //projects/:id/addDeveloper?id=user_id(developer)
