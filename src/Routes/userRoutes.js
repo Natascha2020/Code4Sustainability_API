@@ -33,4 +33,7 @@ router.get("/developers", userController.getAllUsersDevelopers);
 // video upload
 router.post("/videoUpload", verifyAuth, userController.videoUpload);
 
+// video stream
+router.get("/Videos/:id?", verifyAuth, userController.videoStream);
+
 module.exports = router;

@@ -5,7 +5,6 @@ const publicKey = fs.readFileSync("public.key");
 module.exports = async (req, res, next) => {
   // get cookies from the request
   // const cookies = cookie.parse(req.headers.cookie || "");
-  console.log(req.cookies);
 
   // verify the validity of the access token
   try {
