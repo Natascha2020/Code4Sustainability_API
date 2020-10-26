@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
+const io = require("socket.io");
 
 const userRoutes = require("./Routes/userRoutes");
 const developerRoutes = require("./Routes/developerRoutes");
@@ -30,6 +31,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(fileUpload());
+
+/* io.on("connection", (socket) => {
+  console.log("a user connected");
+   socket.on('disconnect', () => {
+    console.log('user disconnected');
+}); */
 
 // Middlewares for Routes
 app.use("/users", userRoutes);

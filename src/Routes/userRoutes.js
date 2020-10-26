@@ -9,14 +9,8 @@ const verifyAuth = require("../Authentication/verifyAuth");
 // get all users
 // router.get("/", userController.getAllUsers);
 
-// get user by specific id
-router.get("/", verifyAuth, userController.getUserById);
-
 // create new user (and depending on typeOfUser a project or developer)
 router.post("/", projectController.createProject, developerController.createDeveloper, userController.createUser);
-
-// delete user (in user collection and project or developer collection depending on typeOfUser)
-router.delete("/", verifyAuth, userController.deleteUserById);
 
 // update user information
 router.put("/", verifyAuth, userController.updateUserById);
@@ -30,10 +24,13 @@ router.get("/projects", userController.getAllUsersProjects);
 // get all users with tpeOfUser "Developer"
 router.get("/developers", userController.getAllUsersDevelopers);
 
-// video upload
-router.post("/videoUpload", verifyAuth, userController.videoUpload);
+// get user by specific id
+router.get("/:id?", verifyAuth, userController.getUserById);
 
-// video stream
-router.get("/Videos/:id?", verifyAuth, userController.videoStream);
+// delete user (in user collection and project or developer collection depending on typeOfUser)
+router.delete("/:id?", verifyAuth, userController.deleteUserById);
+
+// video upload
+//router.post("/videoUpload", verifyAuth, userController.videoUpload);
 
 module.exports = router;

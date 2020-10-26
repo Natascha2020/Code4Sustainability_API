@@ -15,7 +15,6 @@ module.exports = async (req, res, next) => {
     if (checkValidity) {
       req.user = jwt.decode(req.cookies.accessToken);
       next();
-      return;
     }
   } catch (err) {
     res.sendStatus(401);

@@ -114,6 +114,8 @@ const developerController = {
   deletePendingProject: async (req, res) => {
     const id = req.user.idUser;
     const { user_id_p } = req.query;
+    console.log(id);
+    console.log(user_id_p);
 
     try {
       const findDeveloper = await User.findOne({ _id: id });
