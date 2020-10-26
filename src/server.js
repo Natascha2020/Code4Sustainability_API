@@ -5,7 +5,6 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const fileUpload = require("express-fileupload");
 const io = require("socket.io");
 
 const userRoutes = require("./Routes/userRoutes");
@@ -30,7 +29,6 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(fileUpload());
 
 /* io.on("connection", (socket) => {
   console.log("a user connected");

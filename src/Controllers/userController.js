@@ -2,8 +2,6 @@
 const User = require("../Models/User");
 const Project = require("../Models/Project");
 const Developer = require("../Models/Developer");
-const fs = require("fs");
-const path = require("path");
 
 const paramsCheck = require("../Helpers/paramsCheck");
 
