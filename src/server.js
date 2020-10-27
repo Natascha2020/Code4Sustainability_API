@@ -2,16 +2,18 @@ require("dotenv").config();
 require("./dbConfig");
 
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const io = require("socket.io");
+const cookie = require("cookie");
+
+/* const server = require("http").createServer(app); */
+/* const io = require("socket.io")(server); */
 
 const userRoutes = require("./Routes/userRoutes");
 const developerRoutes = require("./Routes/developerRoutes");
 const projectRoutes = require("./Routes/projectRoutes");
 
-const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(
@@ -28,12 +30,18 @@ app.use(
 // Middlewares to parse pody-text format as url encoded data/json received from client
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
+app.use((req, _, next) => {
+  req.cookies = cookie.parse(req.headers.cookie || "");
+  next();
+});
 
 /* io.on("connection", (socket) => {
-  console.log("a user connected");
-   socket.on('disconnect', () => {
-    console.log('user disconnected');
+  socket.on("chat message", (msg) => {
+    console.log("My message:", msg);
+    socket.on("disconnect", () => {
+      console.log("user is disconnected");
+    });
+  });
 }); */
 
 // Middlewares for Routes
