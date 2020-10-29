@@ -9,7 +9,6 @@ const developerController = {
   getAllDevelopers: async (req, res) => {
     try {
       const result = await Developer.find({});
-      console.log(result);
       res.json(result);
     } catch (err) {
       res.sendStatus(500);
@@ -46,7 +45,9 @@ const developerController = {
     //iduser(project)
     const { user_id_p } = req.query;
     //projects/:id/addProject?id=user_id(project)
+    console.log(id);
     console.log(user_id_p);
+
     try {
       const findDeveloper = await User.findOne({ _id: id });
       const findProject = await User.findOne({ _id: user_id_p });
@@ -56,15 +57,12 @@ const developerController = {
 
       // check if iduser(project) already exists in projects_pending-array, if not then push to it
       const result = await Developer.exists({ _id: findDeveloper.id_developer, projects_pending: user_id_p });
-      console.log(result);
+
       if (!result) {
         const pushedProject = await Developer.findByIdAndUpdate(findDeveloper.id_developer, { $push: { projects_pending: user_id_p } });
-        console.log("id", id);
-        console.log(pushedProject);
 
         const pushedDeveloper = await Project.findByIdAndUpdate(findProject.id_project, { $push: { developers_pending: id } });
         res.json({ pushedDeveloper: pushedDeveloper, pushedProject: pushedProject });
-        console.log("p", pushedDeveloper);
       }
     } catch (err) {
       console.error(err);
@@ -79,16 +77,14 @@ const developerController = {
     //iduser(projects)
     const { user_id_p } = req.query;
     //developers/:id/addProject?id=user_id(project)
-    console.log(id, user_id_p);
+
     try {
       const developerPending = await User.findOne({ _id: id });
       const projectPending = await User.findOne({ _id: user_id_p });
 
-      console.log(developerPending, projectPending);
-
       // check if iduser(project) already exists in projects_pending-array, if not then push to it
       const result = await Developer.exists({ _id: developerPending.id_developer, projects_pending: user_id_p });
-      console.log(result);
+
       if (result) {
         //add to matched-array for project and developer by their userid
         const pushedProject = await Developer.findOneAndUpdate({ _id: developerPending.id_developer }, { $push: { projects_matched: user_id_p } });
@@ -103,7 +99,6 @@ const developerController = {
           removedDeveloper: removedDeveloper,
           removedProject: removedProject,
         });
-        console.log(pushedDeveloper, pushedProject, removedDeveloper, removedProject);
       }
     } catch (err) {
       console.error(err);
@@ -114,8 +109,6 @@ const developerController = {
   deletePendingProject: async (req, res) => {
     const id = req.user.idUser;
     const { user_id_p } = req.query;
-    console.log(id);
-    console.log(user_id_p);
 
     try {
       const findDeveloper = await User.findOne({ _id: id });
@@ -123,13 +116,11 @@ const developerController = {
 
       // check if iduser(project) already exists in projects_pending-array, if so delete it prom developer and project
       const result = await Developer.exists({ _id: findDeveloper.id_developer, projects_pending: user_id_p });
-      console.log(result);
 
       if (result) {
         const pushedProject = await Developer.findOneAndUpdate({ _id: findDeveloper.id_developer }, { $pull: { projects_pending: user_id_p } });
         const pushedDeveloper = await Project.findOneAndUpdate({ _id: findProject.id_project }, { $pull: { developers_pending: id } });
         res.json({ pushedDeveloper: pushedDeveloper, pushedProject: pushedProject });
-        console.log(pushedDeveloper, pushedProject);
       }
     } catch (err) {
       console.error(err);
@@ -139,7 +130,6 @@ const developerController = {
 
   deleteMatchedProject: async (req, res) => {
     // delete userid(project)from pending_project-array and push it to project_matched-array on userid
-
     const id = req.user.idUser;
     const { user_id_p } = req.query;
 
@@ -158,7 +148,6 @@ const developerController = {
           removedDeveloper: removedDeveloper,
           removedProject: removedProject,
         });
-        console.log(removedDeveloper, removedProject);
       }
     } catch (err) {
       console.error(err);

@@ -98,7 +98,7 @@ const userController = {
     /* console.log(req.user.idUser);
     const id = req.user.idUser; */
     const id = req.query.currentUser ? req.user.idUser : req.params.id;
-    console.log(id);
+
     if (!paramsCheck([id])) {
       res.sendStatus(400);
       console.log("Error: invalid data on client request");
@@ -118,7 +118,6 @@ const userController = {
   updateUserById: async (req, res) => {
     const { email, name, password, webpage, image, location, question1, question2, question3, answer1, answer2, answer3 } = req.body;
     const id = req.user.idUser;
-    console.log(id);
     let newHash = "";
 
     try {

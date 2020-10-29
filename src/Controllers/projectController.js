@@ -7,11 +7,9 @@ const Developer = require("../Models/Developer");
 const projectController = {
   // get all projects
   getAllProjects: async (req, res) => {
-    console.log("get projects");
     try {
       const result = await Project.find({});
-      console.log("in result");
-      console.log(result);
+
       res.json(result);
     } catch (err) {
       res.sendStatus(500);
@@ -52,10 +50,9 @@ const projectController = {
     try {
       const findProject = await User.findOne({ _id: id });
       const findDeveloper = await User.findOne({ _id: user_id_d });
-      console.log(findProject);
+
       // check if iduser(developer) already exists in developers_pending-array, if not then push to it
       const result = await Project.exists({ _id: findProject.id_project, developers_pending: user_id_d });
-      console.log(result);
 
       if (!result) {
         const pushedDeveloper = await Project.findOneAndUpdate({ _id: findProject.id_project }, { $push: { developers_pending: user_id_d } });
