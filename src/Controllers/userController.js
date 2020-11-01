@@ -44,6 +44,7 @@ const userController = {
     // params check already done
     // salting users plain text password through hashing function to save as hash in database
     // sending back to client projectname and id
+    console.log("in create user", email, password, typeOfUser);
     try {
       const saltRounds = 10;
       const hash = await bcrypt.hash(password, saltRounds);
@@ -99,11 +100,7 @@ const userController = {
     const id = req.user.idUser; */
     const id = req.query.currentUser ? req.user.idUser : req.params.id;
 
-    if (!paramsCheck([id])) {
-      res.sendStatus(400);
-      console.log("Error: invalid data on client request");
-      return;
-    }
+    /*  */
 
     try {
       let result = await User.findOne({ _id: id }, { password: 0 });

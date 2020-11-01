@@ -19,13 +19,14 @@ const projectController = {
 
   createProject: async (req, res, next) => {
     const { email, password, typeOfUser } = req.body;
+    console.log("in project create", email, password, typeOfUser);
 
     const validParams = paramsCheck([email, password, typeOfUser]);
-    if (!validParams) {
+    /* if (!validParams) {
       res.sendStatus(400).send("Please insert valid data");
       console.log("Error: invalid data on client request");
       return;
-    }
+    } */
     //check if user is a project owner, then create project, else go next (create developer)
 
     try {
@@ -108,10 +109,9 @@ const projectController = {
     try {
       const findProject = await User.findOne({ _id: id });
       const findDeveloper = await User.findOne({ _id: user_id_d });
-      console.log(findProject);
+
       // check if iduser(developer) already exists in developers_pending-array, if so delete it prom developer and project
       const result = await Project.exists({ _id: findProject.id_project, developers_pending: user_id_d });
-      console.log(result);
 
       if (result) {
         const pushedDeveloper = await Project.findOneAndUpdate({ _id: findProject.id_project }, { $pull: { developers_pending: user_id_d } });

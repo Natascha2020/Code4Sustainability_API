@@ -5,9 +5,7 @@ const publicKey = fs.readFileSync("public.key");
 module.exports = async (req, res, next) => {
   // verify the validity of the access token
   try {
-    const checkValidity = jwt.verify(req.cookies.accessToken, publicKey, {
-      algorithm: "RS256",
-    });
+    const checkValidity = jwt.verify(req.cookies.accessToken, publicKey);
     // if valid go next
     if (checkValidity) {
       req.user = jwt.decode(req.cookies.accessToken);

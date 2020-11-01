@@ -21,11 +21,11 @@ const developerController = {
     console.log(email, password, typeOfUser);
 
     const validParams = paramsCheck([email, password, typeOfUser]);
-    if (!validParams) {
+    /* if (!validParams) {
       res.sendStatus(400).send("Please insert valid data");
       console.log("Error: invalid data on client request");
       return;
-    }
+    } */
     //check if user is a developer, then create developer
     try {
       if (typeOfUser === "Developer") {
@@ -45,15 +45,10 @@ const developerController = {
     //iduser(project)
     const { user_id_p } = req.query;
     //projects/:id/addProject?id=user_id(project)
-    console.log(id);
-    console.log(user_id_p);
 
     try {
       const findDeveloper = await User.findOne({ _id: id });
       const findProject = await User.findOne({ _id: user_id_p });
-      console.log(findDeveloper);
-      console.log(findProject);
-      console.log(findProject.id_project);
 
       // check if iduser(project) already exists in projects_pending-array, if not then push to it
       const result = await Developer.exists({ _id: findDeveloper.id_developer, projects_pending: user_id_p });
@@ -133,13 +128,18 @@ const developerController = {
     const id = req.user.idUser;
     const { user_id_p } = req.query;
 
+    console.log(id);
+
     try {
       const developerPending = await User.findOne({ _id: id });
+      console.log("Test", developerPending);
       const projectPending = await User.findOne({ _id: user_id_p });
 
-      // check if iduser(developer) already exists in developers_pending-array, if so then delete it from developer and project
+      console.log("Test2", projectPending);
+
       const result = await Developer.exists({ _id: developerPending.id_developer, projects_matched: user_id_p });
 
+      console.log("result", result);
       if (result) {
         const removedProject = await Developer.findOneAndUpdate({ _id: developerPending.id_developer }, { $pull: { projects_matched: user_id_p } });
         const removedDeveloper = await Project.findOneAndUpdate({ _id: projectPending.id_project }, { $pull: { developers_matched: id } });
