@@ -98,11 +98,12 @@ const userController = {
   getUserById: async (req, res) => {
     /* console.log(req.user.idUser);
     const id = req.user.idUser; */
-    const id = req.query.currentUser ? req.user.idUser : req.params.id;
 
     /*  */
 
     try {
+      const id = req.query.currentUser ? req.user.idUser : req.params.id;
+
       let result = await User.findOne({ _id: id }, { password: 0 });
       res.json(result);
     } catch (err) {
