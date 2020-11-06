@@ -2,6 +2,7 @@
 const User = require("../Models/User");
 const Project = require("../Models/Project");
 const Developer = require("../Models/Developer");
+const jwt = require("jsonwebtoken");
 
 const paramsCheck = require("../Helpers/paramsCheck");
 
@@ -21,7 +22,21 @@ const userController = {
 
   getAllUsersProjects: async (req, res) => {
     try {
-      const result = await User.find({ typeOfUser: "Project" });
+      let idUser;
+      try {
+        const payload = await jwt.verify(req.cookies.accessToken, "cat");
+        idUser = payload.idUser;
+      } catch (e) {
+        console.log("not a connected user");
+      }
+      let result = await User.find({ typeOfUser: "Project" }).populate({ path: "id_project" }).lean();
+      result = result.map((el) => {
+        console.log(el);
+        if (el.id_project.developers_pending.includes(idUser) || el.id_project.developers_matched.includes(idUser)) {
+          el.sentInterest = true;
+        }
+        return el;
+      });
       res.json(result);
     } catch (err) {
       res.sendStatus(500);
@@ -150,7 +165,7 @@ const userController = {
       if (!question2 || question2 === "") delete updatedValue.question2;
       if (!question3 || question3 === "") delete updatedValue.question3;
       if (!answer1 || answer1 === "") delete updatedValue.answer1;
-      if (!answer2 || answer2 === "") delete updatedValue.answer3;
+      if (!answer2 || answer2 === "") delete updatedValue.answer2;
       if (!answer3 || answer3 === "") delete updatedValue.answer3;
 
       const result = await User.findOneAndUpdate({ _id: id }, { $set: updatedValue }, { password: 0 });
