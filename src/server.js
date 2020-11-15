@@ -7,9 +7,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookie = require("cookie");
 
-/* const server = require("http").createServer(app); */
-/* const io = require("socket.io")(server); */
-
 const userRoutes = require("./Routes/userRoutes");
 const developerRoutes = require("./Routes/developerRoutes");
 const projectRoutes = require("./Routes/projectRoutes");
@@ -18,7 +15,7 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3000", "https://c4s-app.herokuapp.com/",
     methods: "GET, POST, PUT, DELETE, HEAD",
     allowHeaders: "Origin, X-Requested-With, Content-Type, Accept",
     exposedHeaders: "Content-Range,X-Content-Range",
@@ -34,15 +31,6 @@ app.use((req, _, next) => {
   req.cookies = cookie.parse(req.headers.cookie || "");
   next();
 });
-
-/* io.on("connection", (socket) => {
-  socket.on("chat message", (msg) => {
-    console.log("My message:", msg);
-    socket.on("disconnect", () => {
-      console.log("user is disconnected");
-    });
-  });
-}); */
 
 // Middlewares for Routes
 app.use("/users", userRoutes);

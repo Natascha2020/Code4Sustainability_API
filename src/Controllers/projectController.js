@@ -19,7 +19,6 @@ const projectController = {
 
   createProject: async (req, res, next) => {
     const { email, password, typeOfUser } = req.body;
-    console.log("in project create", email, password, typeOfUser);
 
     const validParams = paramsCheck([email, password, typeOfUser]);
     /* if (!validParams) {
@@ -59,7 +58,6 @@ const projectController = {
         const pushedDeveloper = await Project.findOneAndUpdate({ _id: findProject.id_project }, { $push: { developers_pending: user_id_d } });
         const pushedProject = await Developer.findOneAndUpdate({ _id: findDeveloper.id_developer }, { $push: { projects_pending: id } });
         res.json({ pushedDeveloper: pushedDeveloper, pushedProject: pushedProject });
-        console.log(pushedDeveloper, pushedProject);
       }
     } catch (err) {
       console.error(err);
@@ -148,7 +146,6 @@ const projectController = {
           removedDeveloper: removedDeveloper,
           removedProject: removedProject,
         });
-        console.log(removedDeveloper, removedProject);
       }
     } catch (err) {
       console.error(err);

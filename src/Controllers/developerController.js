@@ -18,7 +18,6 @@ const developerController = {
 
   createDeveloper: async (req, res, next) => {
     const { email, password, typeOfUser } = req.body;
-    console.log(email, password, typeOfUser);
 
     const validParams = paramsCheck([email, password, typeOfUser]);
     /* if (!validParams) {
@@ -128,18 +127,12 @@ const developerController = {
     const id = req.user.idUser;
     const { user_id_p } = req.query;
 
-    console.log(id);
-
     try {
       const developerPending = await User.findOne({ _id: id });
-      console.log("Test", developerPending);
       const projectPending = await User.findOne({ _id: user_id_p });
-
-      console.log("Test2", projectPending);
 
       const result = await Developer.exists({ _id: developerPending.id_developer, projects_matched: user_id_p });
 
-      console.log("result", result);
       if (result) {
         const removedProject = await Developer.findOneAndUpdate({ _id: developerPending.id_developer }, { $pull: { projects_matched: user_id_p } });
         const removedDeveloper = await Project.findOneAndUpdate({ _id: projectPending.id_project }, { $pull: { developers_matched: id } });

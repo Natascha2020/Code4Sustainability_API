@@ -31,7 +31,6 @@ const userController = {
       }
       let result = await User.find({ typeOfUser: "Project" }).populate({ path: "id_project" }).lean();
       result = result.map((el) => {
-        console.log(el);
         if (el.id_project.developers_pending.includes(idUser) || el.id_project.developers_matched.includes(idUser)) {
           el.sentInterest = true;
         }
@@ -59,7 +58,6 @@ const userController = {
     // params check already done
     // salting users plain text password through hashing function to save as hash in database
     // sending back to client projectname and id
-    console.log("in create user", email, password, typeOfUser);
     try {
       const saltRounds = 10;
       const hash = await bcrypt.hash(password, saltRounds);
@@ -84,7 +82,6 @@ const userController = {
   deleteUserById: async (req, res) => {
     const id = req.user.idUser;
 
-    console.log(id);
     if (!paramsCheck([id])) {
       res.sendStatus(400);
       console.log("Error: invalid data on client request");
