@@ -1,6 +1,6 @@
 # Code4Sustainability_API
 
-#### ->Restful API using node.js and express.js
+##### -> Restful API using node.js and express.js
 
 ### Connecting developers with sustainable projects, initiatives and startUps.
 **"Join for the challenge, stay for the people!"**
