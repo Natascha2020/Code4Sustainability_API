@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3000 https://c4s-app.herokuapp.com",
     methods: "GET, POST, PUT, DELETE, HEAD",
     allowHeaders: "Origin, X-Requested-With, Content-Type, Accept",
     exposedHeaders: "Content-Range,X-Content-Range",
