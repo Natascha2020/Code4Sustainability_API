@@ -36,8 +36,6 @@ const userController = {
         }
         return el;
       });
-      console.log(result);
-      console.log("test");
       res.json(result);
     } catch (err) {
       res.sendStatus(500);
