@@ -5,6 +5,7 @@ const publicKey = fs.readFileSync("public.pem");
 module.exports = async (req, res, next) => {
   // verify the validity of the access token
   try {
+    console.log("cookies", req.cookies);
     const checkValidity = await jwt.verify(req.cookies.accessToken, "cat");
     // if valid go next
     if (checkValidity) {
