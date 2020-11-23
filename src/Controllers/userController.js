@@ -112,6 +112,8 @@ const userController = {
     const id = req.user.idUser; */
 
     /*  */
+    console.log("A", req.query.currentUser);
+    console.log("B", req.params.id);
 
     try {
       const id = req.query.currentUser ? req.user.idUser : req.params.id;
