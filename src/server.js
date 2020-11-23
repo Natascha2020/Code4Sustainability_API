@@ -27,10 +27,10 @@ app.use(
 // Middlewares to parse pody-text format as url encoded data/json received from client
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-/* app.use((req, _, next) => {
+app.use((req, _, next) => {
   req.cookies = cookie.parse(req.headers.cookie || "");
   next();
-}); */
+});
 
 // Middlewares for Routes
 app.use("/users", userRoutes);

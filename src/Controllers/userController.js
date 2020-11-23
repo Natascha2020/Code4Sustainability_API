@@ -108,12 +108,6 @@ const userController = {
 
   // find specific user by email
   getUserById: async (req, res) => {
-    /* console.log(req.user.idUser);
-    const id = req.user.idUser; */
-
-    /*  */
-    console.log("A", req.query.currentUser);
-
     try {
       const id = req.query.currentUser ? req.user.idUser : req.params.id;
 
