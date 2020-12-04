@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
   console.log("cookies", cookies);
   // verify the validity of the access token
   try {
-    const checkValidity = await jwt.verify(cookies.accessToken, "cat");
+    const checkValidity = await jwt.verify(cookies.accessToken, process.env.SEC);
     /* const checkValidity = await jwt.verify(req.cookies.accessToken, "cat"); */
 
     // if valid go next
