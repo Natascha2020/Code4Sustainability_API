@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 app.use(
   cors({
     origin: "https://c4s-app.herokuapp.com",
-    methods: "GET, POST, PUT, DELETE, HEAD",
+    methods: "GET, POST, PUT, DELETE, HEAD, OPTIONS",
     allowHeaders: "Origin, X-Requested-With, Content-Type, Accept",
     exposedHeaders: ["Content-Range", "X-Content-Range", "set-cookie"],
     preflightContinue: true,
